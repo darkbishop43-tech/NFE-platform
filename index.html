@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NFE Platform Prototype</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="mark">NFE</div>
+      <div>
+        <h1>NFE Platform</h1>
+        <p>Structured reasoning under active testing</p>
+      </div>
+    </div>
+    <nav>
+      <button class="nav-btn active" data-section="public">Public Website</button>
+      <button class="nav-btn" data-section="studio">NFE Studio</button>
+      <button class="nav-btn" data-section="os">NFE-OS</button>
+      <button class="nav-btn" data-section="admin">Administration</button>
+    </nav>
+    <div class="status-card">
+      <span class="dot"></span>
+      <strong>Archive Health</strong>
+      <p>🟢 SAFE — prototype checkpoint ready</p>
+    </div>
+  </aside>
+
+  <main>
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">Narrative Fuel Engine</p>
+        <h2 id="section-title">Public Website</h2>
+      </div>
+      <button id="exportBtn">Export Demo Report</button>
+    </header>
+
+    <section id="public" class="section active">
+      <div class="hero card">
+        <div>
+          <p class="eyebrow">What is NFE?</p>
+          <h3>A layered analytical engine for disciplined reasoning.</h3>
+          <p>NFE organizes analysis into canonical layers, evidence tracking, belief-gap detection, and optional adaptive reasoning when complexity justifies deeper work.</p>
+          <div class="actions">
+            <button data-section-link="studio">Open Studio</button>
+            <button class="secondary" data-section-link="docs">View Docs</button>
+          </div>
+        </div>
+        <div class="hero-panel">
+          <span>Core Engine</span>
+          <strong>Layers 0–6</strong>
+          <small>Mandatory workflow</small>
+          <hr />
+          <span>Layer 7</span>
+          <strong>Adaptive Reasoning</strong>
+          <small>Optional augmentation</small>
+        </div>
+      </div>
+
+      <div class="grid four">
+        <article class="card"><h4>Documentation</h4><p>Architecture, layer definitions, trigger policy, and NFE-OS governance notes.</p></article>
+        <article class="card"><h4>Benchmark Results</h4><p>Case outcomes, predictions, verdict tracking, and validation history.</p></article>
+        <article class="card"><h4>Blog</h4><p>Research notes, project updates, public explanations, and implementation logs.</p></article>
+        <article class="card"><h4>Downloads</h4><p>Specifications, reports, templates, and reference implementations.</p></article>
+      </div>
+    </section>
+
+    <section id="studio" class="section">
+      <div class="grid two">
+        <div class="card workspace">
+          <h3>Analysis Workspace</h3>
+          <label>Case Title</label>
+          <input id="caseTitle" value="Layer 7 Architecture Review" />
+          <label>Question / Claim</label>
+          <textarea id="casePrompt">Is Layer 7 architecturally compatible with the canonical NFE Core Engine?</textarea>
+          <label>Mode</label>
+          <select id="caseMode">
+            <option>Core Engine Only</option>
+            <option selected>Core + Layer 7 Adaptive Reasoning</option>
+            <option>Benchmark Validation</option>
+          </select>
+          <button id="runAnalysis">Run Demo Analysis</button>
+        </div>
+        <div class="card">
+          <h3>Layer Visualization</h3>
+          <div class="layers" id="layers"></div>
+        </div>
+      </div>
+
+      <div class="grid three">
+        <article class="card"><h4>Case History</h4><ul id="caseHistory"></ul></article>
+        <article class="card"><h4>Evidence Ledger</h4><ul id="evidenceLedger"></ul></article>
+        <article class="card"><h4>Report Export</h4><pre id="reportOutput">Run an analysis to generate a report preview.</pre></article>
+      </div>
+    </section>
+
+    <section id="os" class="section">
+      <div class="grid four">
+        <article class="card"><h3>Project Management</h3><p>Track NFE Framework, Sassy, Holloway Paradox, WoW Campaign, and benchmarks.</p><button>Add Project</button></article>
+        <article class="card"><h3>Artifact Archive</h3><p>Preserve specs, reports, scripts, ledgers, and release packages.</p><button>Archive Checkpoint</button></article>
+        <article class="card"><h3>Version Control</h3><p>Maintain version history for NFE layers, engine contracts, and governance rules.</p><button>Create Version</button></article>
+        <article class="card"><h3>Governance</h3><p>Apply SCRP, archive health, drift warnings, and TEST ONLY defaults.</p><button>Review Governance</button></article>
+      </div>
+    </section>
+
+    <section id="admin" class="section">
+      <div class="grid four">
+        <article class="card"><h3>Users</h3><p>Owner, collaborators, reviewers, and public users.</p><strong>1 owner</strong></article>
+        <article class="card"><h3>Roles</h3><p>Admin, researcher, studio operator, viewer.</p><strong>4 roles</strong></article>
+        <article class="card"><h3>Metrics</h3><p>Cases analyzed, confidence movement, benchmarks, and exports.</p><strong id="metricCases">0 cases</strong></article>
+        <article class="card"><h3>System Settings</h3><p>Model settings, budget limits, audit mode, export format.</p><strong>Audit mode on</strong></article>
+      </div>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
