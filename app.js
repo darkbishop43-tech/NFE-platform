@@ -23,18 +23,14 @@ function showSection(id) {
   });
 
   const targetSection = document.querySelector(`#${id}`);
-  if (targetSection) {
-    targetSection.classList.add('active');
-  }
+  if (targetSection) targetSection.classList.add('active');
 
   document.querySelectorAll('.nav-btn').forEach(button => {
     button.classList.toggle('active', button.dataset.section === id);
   });
 
   const sectionTitle = document.querySelector('#section-title');
-  if (sectionTitle && sections[id]) {
-    sectionTitle.textContent = sections[id];
-  }
+  if (sectionTitle && sections[id]) sectionTitle.textContent = sections[id];
 }
 
 document.querySelectorAll('[data-section]').forEach(button => {
@@ -69,12 +65,9 @@ const layerOutputs = {
 
 function getReasoningModeLabel(mode) {
   if (!mode) return 'Deep Pass';
-
   if (mode.toLowerCase().includes('fast')) return 'Fast Pass';
   if (mode.toLowerCase().includes('benchmark')) return 'Benchmark Pass';
   if (mode.toLowerCase().includes('deep')) return 'Deep Pass';
-  if (mode.toLowerCase().includes('layer 7')) return 'Deep Pass';
-
   return mode;
 }
 
@@ -93,7 +86,6 @@ function shouldActivateLayer7(mode, prompt) {
     'benchmark',
     'validation',
     'high impact',
-    'high-impact',
     'stakes',
     'medium confidence',
     'low confidence'
@@ -113,9 +105,7 @@ function renderLayers(activeLayer7 = false) {
 
   layerContainer.innerHTML = layerNames.map(([number, description], index) => {
     const isLayer7 = index === 7;
-    const status = isLayer7
-      ? activeLayer7 ? 'Triggered' : 'Optional'
-      : 'Required';
+    const status = isLayer7 ? (activeLayer7 ? 'Triggered' : 'Optional') : 'Required';
 
     return `
       <div class="layer ${isLayer7 ? 'optional' : ''}">
@@ -133,17 +123,13 @@ function renderHistory() {
 
   if (!historyEl) return;
 
-  if (!caseHistory.length) {
-    historyEl.innerHTML = '';
-  } else {
-    historyEl.innerHTML = caseHistory.map(item => `
-      <li>
-        <strong>${item.id}</strong> — ${item.title}
-        <br>
-        <small>${item.mode} | ${item.status}</small>
-      </li>
-    `).join('');
-  }
+  historyEl.innerHTML = caseHistory.map(item => `
+    <li>
+      <strong>${item.id}</strong> — ${item.title}
+      <br>
+      <small>${item.mode} | ${item.status}</small>
+    </li>
+  `).join('');
 
   if (metricCases) {
     metricCases.textContent = `${caseHistory.length} case${caseHistory.length === 1 ? '' : 's'}`;
@@ -155,9 +141,7 @@ function buildCoreEngineReport(prompt) {
     layer_0_observation_ledger: {
       purpose: 'Capture observations while separating observable evidence from inference.',
       outputs: layerOutputs[0],
-      demo_result: prompt
-        ? `Primary claim captured: ${prompt}`
-        : 'No claim provided.'
+      demo_result: prompt ? `Primary claim captured: ${prompt}` : 'No claim provided.'
     },
     layer_1_human_drivers: {
       purpose: 'Identify underlying human motivations influencing individuals and groups.',
@@ -232,6 +216,112 @@ function buildLayer7Report(layer7Active, mode) {
     ],
     outputs: layerOutputs[7]
   };
+}
+
+function formatReadableReport(report) {
+  const core = report.core_nfe_analytical_engine;
+  const layer7 = report.layer_7_adaptive_reasoning;
+
+  return `
+NFE REPORT
+==========
+
+Case ID: ${report.id}
+Title: ${report.title}
+Engine Version: ${report.engine_version}
+Reasoning Mode: ${report.reasoning_mode}
+Status: ${report.status}
+
+ARCHITECTURE
+------------
+Core Engine: ${report.architecture.core_engine}
+Adaptive Layer: ${report.architecture.adaptive_layer}
+Constraint: ${report.architecture.constraint}
+
+CASE INPUT
+----------
+Analysis Objective:
+${report.case_input.analysis_objective}
+
+Question / Claim:
+${report.case_input.question_or_claim}
+
+CORE NFE ANALYTICAL ENGINE
+--------------------------
+
+Layer 0 — Observation Ledger
+Purpose: ${core.layer_0_observation_ledger.purpose}
+Outputs: ${core.layer_0_observation_ledger.outputs.join(', ')}
+Result: ${core.layer_0_observation_ledger.demo_result}
+
+Layer 1 — Human Drivers
+Purpose: ${core.layer_1_human_drivers.purpose}
+Outputs: ${core.layer_1_human_drivers.outputs.join(', ')}
+Result: ${core.layer_1_human_drivers.demo_result}
+
+Layer 2 — Narrative Pressures
+Purpose: ${core.layer_2_narrative_pressures.purpose}
+Outputs: ${core.layer_2_narrative_pressures.outputs.join(', ')}
+Result: ${core.layer_2_narrative_pressures.demo_result}
+
+Layer 3 — Stakeholder Response
+Purpose: ${core.layer_3_stakeholder_response.purpose}
+Outputs: ${core.layer_3_stakeholder_response.outputs.join(', ')}
+Result: ${core.layer_3_stakeholder_response.demo_result}
+
+Layer 4 — Decision Path
+Purpose: ${core.layer_4_decision_path.purpose}
+Outputs: ${core.layer_4_decision_path.outputs.join(', ')}
+Result: ${core.layer_4_decision_path.demo_result}
+
+Layer 5 — Outcome Expectation
+Purpose: ${core.layer_5_outcome_expectation.purpose}
+Outputs: ${core.layer_5_outcome_expectation.outputs.join(', ')}
+Result: ${core.layer_5_outcome_expectation.demo_result}
+
+Layer 6 — Validation & Refinement
+Purpose: ${core.layer_6_validation_refinement.purpose}
+Outputs: ${core.layer_6_validation_refinement.outputs.join(', ')}
+Result: ${core.layer_6_validation_refinement.demo_result}
+
+LAYER 7 — ADAPTIVE REASONING / TEST-TIME REASONING
+---------------------------------------------------
+Activated: ${layer7.activated ? 'Yes' : 'No'}
+Classification: ${layer7.classification}
+Reason: ${layer7.reason}
+Constraint: ${layer7.architectural_constraint}
+
+${layer7.activated ? `
+Allowed Actions:
+${layer7.allowed_actions.map(item => `- ${item}`).join('\n')}
+
+Multi-Path Reasoning:
+${layer7.multi_path_reasoning.map(item => `- ${item}`).join('\n')}
+
+Challenge Round:
+${layer7.challenge_round.map(item => `- ${item}`).join('\n')}
+` : ''}
+
+CONFIDENCE CALIBRATION
+----------------------
+Baseline: ${report.confidence_calibration.baseline}
+Refined: ${report.confidence_calibration.refined}
+Note: ${report.confidence_calibration.note}
+
+FINAL ASSESSMENT
+----------------
+${report.final_assessment}
+
+VALIDATION TARGETS
+------------------
+${report.validation_targets.map(item => `- ${item}`).join('\n')}
+
+ARCHIVE STATUS
+--------------
+Archive Health: ${report.archive_status.archive_health}
+Checkpoint Recommendation: ${report.archive_status.checkpoint_recommendation}
+SCRP Alignment: ${report.archive_status.scrp_alignment}
+`.trim();
 }
 
 function runDemoAnalysis() {
@@ -315,7 +405,7 @@ function runDemoAnalysis() {
 
   const reportOutput = document.querySelector('#reportOutput');
   if (reportOutput) {
-    reportOutput.textContent = JSON.stringify(report, null, 2);
+    reportOutput.textContent = formatReadableReport(report);
   }
 
   showSection('studio');
@@ -336,12 +426,12 @@ if (exportButton) {
       return;
     }
 
-    const blob = new Blob([content], { type: 'application/json' });
+    const blob = new Blob([content], { type: 'text/plain' });
     const url = URL.createObjectURL(blob);
     const anchor = document.createElement('a');
 
     anchor.href = url;
-    anchor.download = `nfe-engine-v0-3-report-${Date.now()}.json`;
+    anchor.download = `nfe-engine-v0-3-report-${Date.now()}.txt`;
     anchor.click();
 
     URL.revokeObjectURL(url);
